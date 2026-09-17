@@ -10,8 +10,8 @@ import {invisiblePieces, buildPiecesHidingSquare, pieceCodes, pieceImageUrl} fro
 
 import { usePuzzleEngine } from '../../hooks/usePuzzleEngine';
 
-export default function PuzzleGame({ mode, theme, generalRating, onGeneralRatingChange, onSwitchMode, onBack }) {
-  const { state, actions } = usePuzzleEngine({ mode, theme, generalRating, onGeneralRatingChange, onSwitchMode });
+export default function PuzzleGame({ mode, theme, sharedPuzzle, generalRating, onGeneralRatingChange, onSwitchMode, onBack }) {
+  const { state, actions } = usePuzzleEngine({ mode, theme, generalRating, onGeneralRatingChange, onSwitchMode, sharedPuzzle });
   const {
     isLoading,
     error,
@@ -137,7 +137,11 @@ export default function PuzzleGame({ mode, theme, generalRating, onGeneralRating
 
           <div style={{ flex: '3 1 460px', minWidth: '320px' }}>
             <div style={{ display: 'flex', gap: '10px', marginBottom: '12px', flexWrap: 'wrap' }}>
-              <StatBadge label="Puzzle Rating" value={currentPuzzleRating} />
+              {mode === 'shared' ? (
+                <StatBadge label="Puzzle Type" value="Shared" />
+              ) : (
+                <StatBadge label="Puzzle Rating" value={currentPuzzleRating} />
+              )}
               <StatBadge
                 label={
                   mode === 'streak' ? 'Streak Rating'
@@ -270,7 +274,15 @@ export default function PuzzleGame({ mode, theme, generalRating, onGeneralRating
                     {mode === 'streak' ? 'Hint (ends streak)' : 'Hint'}
                   </button>
                 )}
-                {isSolved && (
+                {isSolved && mode === 'shared' && (
+                  <button
+                    onClick={onBack}
+                    style={{ padding: '13px 26px', cursor: 'pointer', borderRadius: '4px', border: 'none', backgroundColor: colors.success, color: colors.surface, fontFamily: fonts.body, fontSize: '1.05rem' }}
+                  >
+                    Back to Menu
+                  </button>
+                )}
+                {isSolved && mode !== 'shared' && (
                   <button
                     onClick={nextPuzzle}
                     style={{ padding: '13px 26px', cursor: 'pointer', borderRadius: '4px', border: 'none', backgroundColor: colors.success, color: colors.surface, fontFamily: fonts.body, fontSize: '1.05rem' }}

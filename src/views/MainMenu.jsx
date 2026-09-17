@@ -3,7 +3,7 @@ import PageHeader from '../components/ui/PageHeader';
 import IconBadge from '../components/ui/IconBadge';
 import { colors, fonts } from '../config/theme';
 
-export default function MainMenu({rating, blackoutRating, missingPieceRating, selectMode, thematic}) {
+export default function MainMenu({rating, blackoutRating, missingPieceRating, selectMode, thematic, editor}) {
   const ratingBadges = [
     { label: 'General Rating', value: rating },
     { label: 'Blackout Rating', value: blackoutRating },
@@ -17,6 +17,7 @@ export default function MainMenu({rating, blackoutRating, missingPieceRating, se
     { mode: "thematic", title: "Thematic Training", icon: "🎓", desc: "Focus on specific motifs like pins, forks, and back-rank mates." },
     { mode: "blackout", title: "Blackout", icon: "🕶️", desc: "Memorize the position, then the pieces vanish. Solve it blind." },
     { mode: "missingPiece", title: "Missing Piece", icon: "🔍", desc: "One square is empty. Guess the piece, then play out the puzzle." },
+    { mode: "editor", title: "Puzzle Editor", icon: "🛠️", desc: "Set up any position, record the solution, and share a link to your own puzzle." },
   ];
 
   return (
@@ -49,10 +50,10 @@ export default function MainMenu({rating, blackoutRating, missingPieceRating, se
           {menuCards.map((card) => (
             <div
               key={card.mode}
-              onClick={() => card.mode === 'thematic' ? thematic() : selectMode(card.mode)}
+              onClick={() => card.mode === 'thematic' ? thematic() : card.mode === 'editor' ? editor() : selectMode(card.mode)}
               role="button"
               tabIndex={0}
-              onKeyDown={(e) => { if (e.key === 'Enter') (card.mode === 'thematic' ? thematic() : selectMode(card.mode)); }}
+              onKeyDown={(e) => { if (e.key === 'Enter') (card.mode === 'thematic' ? thematic() : card.mode === 'editor' ? editor() : selectMode(card.mode)); }}
               style={{
                 backgroundColor: colors.surface,
                 borderLeft: `4px solid ${colors.primary}`,

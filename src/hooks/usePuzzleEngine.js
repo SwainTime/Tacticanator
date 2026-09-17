@@ -8,7 +8,7 @@ import {loadDaily, saveDaily, loadBlackoutRating, saveBlackoutRating, loadMissin
 import {colors} from '../config/theme';
 import {streakTimerStartSeconds, streakTimerBonusSeconds, streakPuzzleCompleteBonusSeconds, blackoutRevealSeconds} from '../config/constants';
 
-export function usePuzzleEngine({ mode, theme, generalRating, onGeneralRatingChange, onSwitchMode }) {
+export function usePuzzleEngine({ mode, theme, generalRating, onGeneralRatingChange, onSwitchMode, sharedPuzzle }) {
   const [activePuzzles, setActivePuzzles] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -62,6 +62,14 @@ export function usePuzzleEngine({ mode, theme, generalRating, onGeneralRatingCha
       setIsLoading(true);
       setError(null);
       try {
+        if (mode === 'shared') {
+          if (!sharedPuzzle) throw new Error('No shared puzzle data');
+          if (isMounted) {
+            setActivePuzzles([sharedPuzzle]);
+            setPuzzleIndex(0);
+          }
+          return;
+        }
         const data = await fetchPuzzles(mode, theme, activeRating);
         if (isMounted) {
           setActivePuzzles(data);
@@ -75,7 +83,7 @@ export function usePuzzleEngine({ mode, theme, generalRating, onGeneralRatingCha
     }
     loadData();
     return () => { isMounted = false; };
-  }, [mode, theme]);
+  }, [mode, theme, sharedPuzzle]);
 
   function initializePuzzle(puzzle) {
     setGame(new Chess(puzzle.fen));
@@ -151,6 +159,9 @@ export function usePuzzleEngine({ mode, theme, generalRating, onGeneralRatingCha
   function rateResult(won) {
     if (alreadyRated.current) return;
     alreadyRated.current = true;
+    // Shared/custom puzzles aren't part of any rating pool — solving a
+    // stranger's puzzle of unknown difficulty shouldn't move your rating.
+    if (mode === 'shared') return;
     const currentPuzzle = activePuzzles[puzzleIndex];
 
     if (mode === 'streak') {
