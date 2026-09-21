@@ -3,6 +3,7 @@ import { colors, fonts } from '../../config/theme';
 
 const inputStyle = {
   width: '100%',
+  backgroundColor: colors.surface,
   boxSizing: 'border-box',
   padding: '10px 12px',
   borderRadius: '4px',
