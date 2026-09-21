@@ -1,4 +1,5 @@
 import {useState} from 'react';
+import {Pencil} from 'lucide-react';
 import {loadUsername, saveUsername} from '../../utils/storage'
 import { colors, fonts } from '../../config/theme';
 import { pieceImageUrl } from '../../utils/chessHelpers';
@@ -96,7 +97,7 @@ export function TopBar({rating, onGoHome}) {
                 fontSize: '0.95rem',
               }}
             >
-              {userName} <span style={{ color: colors.primaryLight }}>✎</span>
+              {userName} <Pencil size={12} color={colors.primaryLight} style={{ verticalAlign: 'middle' }} />
             </div>
           )}
           <div style={{

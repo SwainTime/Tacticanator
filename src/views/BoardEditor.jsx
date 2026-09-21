@@ -1,6 +1,7 @@
 import {useRef, useState} from 'react';
 import {Chess, validateFen} from 'chess.js';
 import {Chessboard} from 'react-chessboard';
+import {Trash2} from 'lucide-react';
 
 import Layout from '../components/ui/Layout';
 import PageHeader from '../components/ui/PageHeader';
@@ -215,7 +216,7 @@ export default function BoardEditor({onBack}) {
                   justifyContent: 'center',
                 }}
               >
-                🗑️
+                <Trash2 size={26} color={colors.textSecondary} />
               </button>
             </div>
           )}

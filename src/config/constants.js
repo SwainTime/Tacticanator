@@ -1,12 +1,14 @@
+import { GitFork, Pin, Target, Castle, Zap, Apple, Swords, Crown } from 'lucide-react';
+
 export const puzzleThemes = [
-  { key: "fork", title: "Fork", icon: "🍴", desc: "Attack two pieces at once with a single move." },
-  { key: "pin", title: "Pin", icon: "📌", desc: "Immobilize a piece that's shielding something more valuable." },
-  { key: "skewer", title: "Skewer", icon: "🎯", desc: "Attack a valuable piece, forcing it to move and exposing what's behind it." },
-  { key: "backRankMate", title: "Back Rank Mate", icon: "🏰", desc: "Checkmate a king trapped behind its own pawns." },
-  { key: "discoveredAttack", title: "Discovered Attack", icon: "💥", desc: "Move one piece to unleash an attack from another." },
-  { key: "hangingPiece", title: "Hanging Piece", icon: "🍏", desc: "Spot the undefended piece free for the taking." },
-  { key: "sacrifice", title: "Sacrifice", icon: "♟️", desc: "Give up material now to win big later." },
-  { key: "mateIn2", title: "Mate in 2", icon: "♚", desc: "Force checkmate in exactly two moves." },
+  { key: "fork", title: "Fork", icon: GitFork, desc: "Attack two pieces at once with a single move." },
+  { key: "pin", title: "Pin", icon: Pin, desc: "Immobilize a piece that's shielding something more valuable." },
+  { key: "skewer", title: "Skewer", icon: Target, desc: "Attack a valuable piece, forcing it to move and exposing what's behind it." },
+  { key: "backRankMate", title: "Back Rank Mate", icon: Castle, desc: "Checkmate a king trapped behind its own pawns." },
+  { key: "discoveredAttack", title: "Discovered Attack", icon: Zap, desc: "Move one piece to unleash an attack from another." },
+  { key: "hangingPiece", title: "Hanging Piece", icon: Apple, desc: "Spot the undefended piece free for the taking." },
+  { key: "sacrifice", title: "Sacrifice", icon: Swords, desc: "Give up material now to win big later." },
+  { key: "mateIn2", title: "Mate in 2", icon: Crown, desc: "Force checkmate in exactly two moves." },
 ];
 
 export const minPuzzleRating = 600;

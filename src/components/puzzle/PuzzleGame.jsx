@@ -1,4 +1,5 @@
 import {Chessboard} from 'react-chessboard';
+import {Timer, Flame, Zap} from 'lucide-react';
 
 import Layout from '../ui/Layout';
 import StatBadge from '../ui/StatBadge';
@@ -214,10 +215,15 @@ export default function PuzzleGame({ mode, theme, sharedPuzzle, generalRating, o
                   fontWeight: 700,
                   fontFamily: fonts.display,
                   color: timeRemaining <= 5 ? colors.danger : colors.textPrimary,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
                 }}>
-                  ⏱ {timeRemaining}s
+                  <Timer size={20} /> {timeRemaining}s
                 </div>
-                <div style={{ fontSize: '1.25rem', fontWeight: 600, color: colors.danger }}>{streak >= 3 ? '🔥' : '⚡'} {streak}</div>
+                <div style={{ fontSize: '1.25rem', fontWeight: 600, color: colors.danger, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  {streak >= 3 ? <Flame size={20} /> : <Zap size={20} />} {streak}
+                </div>
               </div>
             )}
 

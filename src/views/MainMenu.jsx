@@ -1,3 +1,4 @@
+import { Flame, Puzzle, Globe, GraduationCap, Glasses, Search, Wrench } from 'lucide-react';
 import Layout from '../components/ui/Layout';
 import PageHeader from '../components/ui/PageHeader';
 import IconBadge from '../components/ui/IconBadge';
@@ -11,13 +12,13 @@ export default function MainMenu({rating, blackoutRating, missingPieceRating, se
   ];
 
   const menuCards = [
-    { mode: "streak", title: "Puzzle Streak", icon: "🔥", desc: "Solve increasingly difficult puzzles until you fail. One strike and you're out." },
-    { mode: "casual", title: "Casual Puzzles", icon: "🧩", desc: "Solve puzzles at your own pace." },
-    { mode: "daily", title: "Daily Challenge", icon: "🌍", desc: "One fresh puzzle a day, the same for everyone." },
-    { mode: "thematic", title: "Thematic Training", icon: "🎓", desc: "Focus on specific motifs like pins, forks, and back-rank mates." },
-    { mode: "blackout", title: "Blackout", icon: "🕶️", desc: "Memorize the position, then the pieces vanish. Solve it blind." },
-    { mode: "missingPiece", title: "Missing Piece", icon: "🔍", desc: "One square is empty. Guess the piece, then play out the puzzle." },
-    { mode: "editor", title: "Puzzle Editor", icon: "🛠️", desc: "Set up any position, record the solution, and share a link to your own puzzle." },
+    { mode: "streak", title: "Puzzle Streak", icon: Flame, desc: "Solve increasingly difficult puzzles until you fail. One strike and you're out." },
+    { mode: "casual", title: "Casual Puzzles", icon: Puzzle, desc: "Solve puzzles at your own pace." },
+    { mode: "daily", title: "Daily Challenge", icon: Globe, desc: "One fresh puzzle a day, the same for everyone." },
+    { mode: "thematic", title: "Thematic Training", icon: GraduationCap, desc: "Focus on specific motifs like pins, forks, and back-rank mates." },
+    { mode: "blackout", title: "Blackout", icon: Glasses, desc: "Memorize the position, then the pieces vanish. Solve it blind." },
+    { mode: "missingPiece", title: "Missing Piece", icon: Search, desc: "One square is empty. Guess the piece, then play out the puzzle." },
+    { mode: "editor", title: "Puzzle Editor", icon: Wrench, desc: "Set up any position, record the solution, and share a link to your own puzzle." },
   ];
 
   return (

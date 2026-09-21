@@ -1,6 +1,6 @@
 import { colors } from '../../config/theme';
 
-export default function IconBadge({ icon, size = 56 }) {
+export default function IconBadge({ icon: Icon, size = 56 }) {
   return (
     <div style={{
       width: size,
@@ -11,10 +11,9 @@ export default function IconBadge({ icon, size = 56 }) {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      fontSize: size * 0.45,
       margin: '0 auto 18px',
     }}>
-      {icon}
+      <Icon size={size * 0.45} color={colors.primary} strokeWidth={1.75} />
     </div>
   );
 }
