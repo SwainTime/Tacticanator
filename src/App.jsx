@@ -1,10 +1,12 @@
 import {useState, useEffect} from 'react';
 import {loadRating, saveRating, loadBlackoutRating, loadMissingPieceRating} from './utils/storage.js';
+import {useAuth} from './hooks/useAuth.js';
 import MainMenu from './views/MainMenu.jsx';
 import ThemeMenu from './views/ThemeMenu.jsx';
 import BoardEditor from './views/BoardEditor.jsx';
 import PuzzleGame from './components/puzzle/PuzzleGame';
 import {TopBar} from './components/ui/TopBar';
+import AuthModal from './components/ui/AuthModal';
 
 function readSharedPuzzleFromUrl() {
   try {
@@ -24,6 +26,8 @@ export default function App() {
   const [generalRating, setGeneralRating] = useState(loadRating);
   const [blackoutRating, setBlackoutRating] = useState(loadBlackoutRating);
   const [missingPieceRating, setMissingPieceRating] = useState(loadMissingPieceRating);
+  const {user, signUp, signIn, signOut} = useAuth();
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
   useEffect(() => {
     saveRating(generalRating);
@@ -75,7 +79,20 @@ export default function App() {
 
   return (
     <>
-      <TopBar rating={generalRating} onGoHome={goHome} />
+      <TopBar
+        rating={generalRating}
+        onGoHome={goHome}
+        user={user}
+        onOpenAuth={() => setShowAuthModal(true)}
+        onSignOut={signOut}
+      />
+      {showAuthModal && (
+        <AuthModal
+          onSignIn={signIn}
+          onSignUp={signUp}
+          onClose={() => setShowAuthModal(false)}
+        />
+      )}
       {content}
     </>
   );

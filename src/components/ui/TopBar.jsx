@@ -4,9 +4,11 @@ import {loadUsername, saveUsername} from '../../utils/storage'
 import { colors, fonts } from '../../config/theme';
 import { pieceImageUrl } from '../../utils/chessHelpers';
 
-export function TopBar({rating, onGoHome}) {
+export function TopBar({rating, onGoHome, user, onOpenAuth, onSignOut}) {
     const [userName, setUserName] = useState(() => loadUsername() || 'Guest');
     const [isEditing, setIsEditing] = useState(false);
+
+    const displayName = user ? user.email.split('@')[0] : userName;
 
     function handleSaveName(e) {
         if (e.key === 'Enter') {
@@ -64,7 +66,11 @@ export function TopBar({rating, onGoHome}) {
 
       <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '2px' }}>
-          {isEditing ? (
+          {user ? (
+            <div style={{ fontFamily: fonts.body, fontWeight: 600, color: colors.textInverted, fontSize: '0.95rem' }}>
+              {displayName}
+            </div>
+          ) : isEditing ? (
             <input
               value={userName}
               onChange={(e) => setUserName(e.target.value)}
@@ -111,6 +117,22 @@ export function TopBar({rating, onGoHome}) {
           </div>
         </div>
 
+        <button
+          onClick={user ? onSignOut : onOpenAuth}
+          style={{
+            padding: '7px 14px',
+            cursor: 'pointer',
+            borderRadius: '4px',
+            border: `1px solid ${colors.primary}`,
+            backgroundColor: 'transparent',
+            color: colors.textInverted,
+            fontFamily: fonts.body,
+            fontSize: '0.8rem',
+          }}
+        >
+          {user ? 'Sign Out' : 'Sign In'}
+        </button>
+
         <div style={{
           width: '38px',
           height: '38px',
@@ -126,7 +148,7 @@ export function TopBar({rating, onGoHome}) {
           color: colors.textInverted,
           flexShrink: 0,
         }}>
-          {userName.charAt(0).toUpperCase()}
+          {displayName.charAt(0).toUpperCase()}
         </div>
       </div>
     </header>
