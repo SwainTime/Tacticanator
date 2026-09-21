@@ -11,8 +11,18 @@ import {invisiblePieces, buildPiecesHidingSquare, pieceCodes, pieceImageUrl} fro
 
 import { usePuzzleEngine } from '../../hooks/usePuzzleEngine';
 
-export default function PuzzleGame({ mode, theme, sharedPuzzle, generalRating, onGeneralRatingChange, onSwitchMode, onBack }) {
-  const { state, actions } = usePuzzleEngine({ mode, theme, generalRating, onGeneralRatingChange, onSwitchMode, sharedPuzzle });
+export default function PuzzleGame({
+  mode, theme, sharedPuzzle, onSwitchMode, onBack,
+  generalRating, onGeneralRatingChange,
+  blackoutRating, onBlackoutRatingChange,
+  missingPieceRating, onMissingPieceRatingChange,
+}) {
+  const { state, actions } = usePuzzleEngine({
+    mode, theme, onSwitchMode, sharedPuzzle,
+    generalRating, onGeneralRatingChange,
+    blackoutRating, onBlackoutRatingChange,
+    missingPieceRating, onMissingPieceRatingChange,
+  });
   const {
     isLoading,
     error,

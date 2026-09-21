@@ -1,6 +1,6 @@
-import {useState, useEffect} from 'react';
-import {loadRating, saveRating, loadBlackoutRating, loadMissingPieceRating} from './utils/storage.js';
+import {useState} from 'react';
 import {useAuth} from './hooks/useAuth.js';
+import {useRatings} from './hooks/useRatings.js';
 import MainMenu from './views/MainMenu.jsx';
 import ThemeMenu from './views/ThemeMenu.jsx';
 import BoardEditor from './views/BoardEditor.jsx';
@@ -23,24 +23,15 @@ export default function App() {
   const [appState, setAppState] = useState(() =>
     sharedPuzzle ? { view: 'puzzle', mode: 'shared', theme: null } : { view: 'menu', mode: null, theme: null }
   );
-  const [generalRating, setGeneralRating] = useState(loadRating);
-  const [blackoutRating, setBlackoutRating] = useState(loadBlackoutRating);
-  const [missingPieceRating, setMissingPieceRating] = useState(loadMissingPieceRating);
   const {user, signUp, signIn, signOut} = useAuth();
+  const {
+    generalRating, setGeneralRating,
+    blackoutRating, setBlackoutRating,
+    missingPieceRating, setMissingPieceRating,
+  } = useRatings(user);
   const [showAuthModal, setShowAuthModal] = useState(false);
 
-  useEffect(() => {
-    saveRating(generalRating);
-  }, [generalRating]);
-
-  const goHome = () => {
-    // Blackout/Missing Piece ratings are owned by usePuzzleEngine and only
-    // land in localStorage, so re-read them here whenever we return to the
-    // menu to pick up whatever changed during the puzzle session.
-    setBlackoutRating(loadBlackoutRating());
-    setMissingPieceRating(loadMissingPieceRating());
-    setAppState({ view: 'menu', mode: null, theme: null });
-  };
+  const goHome = () => setAppState({ view: 'menu', mode: null, theme: null });
 
   let content;
   if (appState.view === 'menu') {
@@ -71,6 +62,10 @@ export default function App() {
         sharedPuzzle={appState.mode === 'shared' ? sharedPuzzle : null}
         generalRating={generalRating}
         onGeneralRatingChange={setGeneralRating}
+        blackoutRating={blackoutRating}
+        onBlackoutRatingChange={setBlackoutRating}
+        missingPieceRating={missingPieceRating}
+        onMissingPieceRatingChange={setMissingPieceRating}
         onSwitchMode={(newMode) => setAppState({ view: 'puzzle', mode: newMode, theme: null })}
         onBack={goHome}
       />

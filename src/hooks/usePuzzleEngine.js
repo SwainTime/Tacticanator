@@ -4,11 +4,16 @@ import {fetchPuzzles} from '../utils/api';
 import {playMoveSound} from '../utils/audio';
 import {getCheckSquare} from '../utils/chessHelpers';
 import {computeNewRating, defaultRating} from '../utils/eloRating';
-import {loadDaily, saveDaily, loadBlackoutRating, saveBlackoutRating, loadMissingPieceRating, saveMissingPieceRating} from '../utils/storage';
+import {loadDaily, saveDaily} from '../utils/storage';
 import {colors} from '../config/theme';
 import {streakTimerStartSeconds, streakTimerBonusSeconds, streakPuzzleCompleteBonusSeconds, blackoutRevealSeconds} from '../config/constants';
 
-export function usePuzzleEngine({ mode, theme, generalRating, onGeneralRatingChange, onSwitchMode, sharedPuzzle }) {
+export function usePuzzleEngine({
+  mode, theme, onSwitchMode, sharedPuzzle,
+  generalRating, onGeneralRatingChange,
+  blackoutRating, onBlackoutRatingChange,
+  missingPieceRating, onMissingPieceRatingChange,
+}) {
   const [activePuzzles, setActivePuzzles] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -31,10 +36,8 @@ export function usePuzzleEngine({ mode, theme, generalRating, onGeneralRatingCha
   const [positionHistory, setPositionHistory] = useState([]);
   const [viewIndex, setViewIndex] = useState(0);
   const [timeRemaining, setTimeRemaining] = useState(streakTimerStartSeconds);
-  const [blackoutRating, setBlackoutRating] = useState(loadBlackoutRating);
   const [isBlackedOut, setIsBlackedOut] = useState(false);
   const [revealKey, setRevealKey] = useState(0);
-  const [missingPieceRating, setMissingPieceRating] = useState(loadMissingPieceRating);
   const [pieceGuessed, setPieceGuessed] = useState(false);
   const alreadyRated = useRef(false);
 
@@ -46,14 +49,6 @@ export function usePuzzleEngine({ mode, theme, generalRating, onGeneralRatingCha
       : mode === 'missingPiece'
         ? missingPieceRating
         : generalRating;
-
-  useEffect(() => {
-    if (mode === 'blackout') saveBlackoutRating(blackoutRating);
-  }, [blackoutRating]);
-
-  useEffect(() => {
-    if (mode === 'missingPiece') saveMissingPieceRating(missingPieceRating);
-  }, [missingPieceRating]);
 
   // prevent state updates on unmounted component
   useEffect(() => {
@@ -186,14 +181,14 @@ export function usePuzzleEngine({ mode, theme, generalRating, onGeneralRatingCha
     if (mode === 'blackout') {
       const nextBlackoutRating = computeNewRating(blackoutRating, currentPuzzle.rating, won);
       setRatingDelta(nextBlackoutRating - blackoutRating);
-      setBlackoutRating(nextBlackoutRating);
+      onBlackoutRatingChange(nextBlackoutRating);
       return;
     }
 
     if (mode === 'missingPiece') {
       const nextMissingPieceRating = computeNewRating(missingPieceRating, currentPuzzle.rating, won);
       setRatingDelta(nextMissingPieceRating - missingPieceRating);
-      setMissingPieceRating(nextMissingPieceRating);
+      onMissingPieceRatingChange(nextMissingPieceRating);
       return;
     }
 
