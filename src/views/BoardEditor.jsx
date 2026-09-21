@@ -1,11 +1,11 @@
-import { useRef, useState } from 'react';
-import { Chess, validateFen } from 'chess.js';
-import { Chessboard } from 'react-chessboard';
+import {useRef, useState} from 'react';
+import {Chess, validateFen} from 'chess.js';
+import {Chessboard} from 'react-chessboard';
 
 import Layout from '../components/ui/Layout';
 import PageHeader from '../components/ui/PageHeader';
-import { colors, fonts, backButtonStyle } from '../config/theme';
-import { pieceCodes, pieceImageUrl } from '../utils/chessHelpers';
+import {colors, fonts, backButtonStyle} from '../config/theme';
+import {pieceCodes, pieceImageUrl} from '../utils/chessHelpers';
 
 const actionButtonStyle = {
   padding: '12px 22px',
@@ -25,7 +25,7 @@ const primaryButtonStyle = {
   color: colors.surface,
 };
 
-function PanelCard({ children }) {
+function PanelCard({children}) {
   return (
     <div style={{ backgroundColor: colors.surface, padding: '24px', borderRadius: '6px', borderLeft: `6px solid ${colors.primary}` }}>
       {children}
@@ -33,7 +33,7 @@ function PanelCard({ children }) {
   );
 }
 
-export default function BoardEditor({ onBack }) {
+export default function BoardEditor({onBack}) {
   const gameRef = useRef(new Chess());
   const recordGameRef = useRef(null);
 
@@ -49,7 +49,7 @@ export default function BoardEditor({ onBack }) {
   const [shareLink, setShareLink] = useState('');
   const [copied, setCopied] = useState(false);
 
-  function handleSquareClick({ square }) {
+  function handleSquareClick({square}) {
     if (!selectedTool) return;
     if (selectedTool === 'erase') {
       gameRef.current.remove(square);
@@ -83,7 +83,7 @@ export default function BoardEditor({ onBack }) {
   }
 
   function startRecording() {
-    const { ok, error } = validateFen(fen);
+    const {ok, error} = validateFen(fen);
     if (!ok) {
       setSetupError(error || 'This position is not legal yet.');
       return;
@@ -95,8 +95,8 @@ export default function BoardEditor({ onBack }) {
     setPhase('recording');
   }
 
-  function handleRecordDrop({ sourceSquare, targetSquare }) {
-    const move = recordGameRef.current.move({ from: sourceSquare, to: targetSquare, promotion: 'q' });
+  function handleRecordDrop({sourceSquare, targetSquare}) {
+    const move = recordGameRef.current.move({from: sourceSquare, to: targetSquare, promotion: 'q'});
     if (!move) return false;
     setRecordedMoves((prev) => [...prev, sourceSquare + targetSquare + (move.promotion || '')]);
     setRecordFen(recordGameRef.current.fen());
@@ -124,18 +124,13 @@ export default function BoardEditor({ onBack }) {
   }
 
   async function copyLink() {
-    try {
       await navigator.clipboard.writeText(shareLink);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-    } catch {
-      // Clipboard access can be blocked (permissions, insecure context); the
-      // link is still selectable/copyable by hand from the text field.
-    }
   }
 
   function makeAnother() {
-    gameRef.current = new Chess();
+    gameRef.current.reset();
     setFen(gameRef.current.fen());
     setSelectedTool(null);
     setSetupError(null);
@@ -247,7 +242,7 @@ export default function BoardEditor({ onBack }) {
             )}
           </div>
 
-          <div style={{ flex: '1 1 260px' }}>
+          <div style={{flex: '1 1 260px'}}>
             {phase === 'setup' && (
               <PanelCard>
                 <h3 style={{ marginTop: 0, fontFamily: fonts.display, fontWeight: 600, color: colors.textPrimary }}>
