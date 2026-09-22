@@ -113,7 +113,6 @@ export function TopBar({rating, onGoHome, user, onOpenAuth, onSignOut}) {
             letterSpacing: '0.05em',
             color: 'rgba(250, 243, 228, 0.55)',
           }}>
-            Rating&nbsp;<strong style={{ color: colors.primaryLight }}>{rating}</strong>
           </div>
         </div>
 
