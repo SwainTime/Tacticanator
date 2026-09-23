@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { supabase } from '../utils/supabaseClient';
+import {useEffect, useState} from 'react';
+import {supabase} from '../utils/supabaseClient';
 
 export function useAuth() {
   const [session, setSession] = useState(null);
@@ -11,7 +11,7 @@ export function useAuth() {
       setLoading(false);
     });
 
-    const { data: subscription } = supabase.auth.onAuthStateChange((_event, newSession) => {
+    const {data: subscription} = supabase.auth.onAuthStateChange((_event, newSession) => {
       setSession(newSession);
     });
 
@@ -19,15 +19,15 @@ export function useAuth() {
   }, []);
 
   async function signUp(email, password) {
-    const { data, error } = await supabase.auth.signUp({ email, password });
-    if (error) return { error: error.message };
+    const {data, error} = await supabase.auth.signUp({ email, password });
+    if (error) return {error: error.message};
     if (!data.session) return { needsEmailConfirmation: true };
     return {};
   }
 
   async function signIn(email, password) {
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) return { error: error.message };
+    const {error} = await supabase.auth.signInWithPassword({email, password});
+    if (error) return {error: error.message};
     return {};
   }
 

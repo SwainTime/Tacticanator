@@ -1,5 +1,5 @@
-import { createElement } from 'react';
-import { defaultPieces } from 'react-chessboard';
+import {createElement} from 'react';
+import {defaultPieces} from 'react-chessboard';
 
 export function pieceImageUrl(type, color) {
   const colorPrefix = color === 'w' ? 'w' : 'b';
